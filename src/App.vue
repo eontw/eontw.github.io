@@ -15,11 +15,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+// import {Button} from 'element-ui'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    // "el-button":Button
   }
 }
 </script>
