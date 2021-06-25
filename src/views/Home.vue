@@ -12,7 +12,7 @@
         :trigger-on-focus="false"
         @select="handleSelect"
       ></el-autocomplete>
-      <div id="searchBtn" style="display: inline-block">搜索</div>
+      <div id="searchBtn" style="display: inline-block"></div>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import jsonpUtil from "@/utils/jsonpUtil";
+import $ from "jquery";
 
 export default {
   name: "Home",
@@ -41,16 +41,28 @@ export default {
   },
   methods: {
     keydata(keys) {
-      this.restaurants=keys.s;
+      this.restaurants = keys.s;
       console.log("keys", keys);
     },
-    async querySearch(queryString, cb) {
+    querySearch(queryString, cb) {
       console.log("querySearch", queryString);
-      await jsonpUtil.get("https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",this.state2);
-
-      // var results = this.restaurants;
-      // console.log('results',results)
-      cb([]);
+      $.ajax({
+        url: "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
+        dataType: "jsonp",
+        type: "get",
+        data: {
+          wd: this.state2,
+        },
+        jsonp: "cb",
+        success: function (data) {
+          console.log("data", data);
+          var results = [];
+          data.s.forEach(function (value) {
+            results.push({ value });
+          });
+          cb(results);
+        },
+      });
     },
     loadAll() {
       console.log("loadAll");
@@ -90,13 +102,17 @@ export default {
   font-size: 16px;
   padding: 0;
   color: #15120e;
+  text-align: left;
 }
 
 #searchBtn {
-  border: 1px solid #353535;
   width: 49px;
   height: 48px;
   background: royalblue;
+  background-image: url(../assets/img/searchBtn.png);
+  background-position: 13px 14px;
+  background-repeat: no-repeat;
+  border: 1px solid #353535;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   border-left: 0 none;
