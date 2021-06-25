@@ -1,18 +1,38 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/"></router-link>
+    <!-- <router-link to="/about">About</router-link> -->
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
+<script>
+export default {
+  components: {},
+};
+</script>
+
 <style lang="scss">
+html body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 }
 
 #nav {
@@ -27,4 +47,8 @@
     }
   }
 }
+
+// #view{
+//   margin: 0px auto;
+// }
 </style>
