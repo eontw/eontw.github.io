@@ -6,13 +6,14 @@
       <el-autocomplete
         id="searchbox"
         class="inline-input"
-        v-model="state2"
+        v-model="state"
         :fetch-suggestions="querySearch"
         placeholder="请输入内容"
         :trigger-on-focus="false"
         @select="handleSelect"
+        @keyup.enter="submit"
       ></el-autocomplete>
-      <div id="searchBtn" style="display: inline-block"></div>
+      <div id="searchBtn" style="display: inline-block" @click="submit"></div>
     </div>
   </div>
 </template>
@@ -29,33 +30,23 @@ export default {
   },
   data() {
     return {
-      restaurants: [{ value: "三全鲜食（北新泾店）" }],
-      state2: "",
+      restaurants: [],
+      state: "",
     };
   },
   created() {
-    window["keydata"] = (keys) => {
-      this.keydata(keys);
-    };
-    // this.restaurants = this.loadAll();
   },
   methods: {
-    keydata(keys) {
-      this.restaurants = keys.s;
-      console.log("keys", keys);
-    },
     querySearch(queryString, cb) {
-      console.log("querySearch", queryString);
       $.ajax({
         url: "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
         dataType: "jsonp",
         type: "get",
         data: {
-          wd: this.state2,
+          wd: this.state,
         },
         jsonp: "cb",
         success: function (data) {
-          console.log("data", data);
           var results = [];
           data.s.forEach(function (value) {
             results.push({ value });
@@ -64,12 +55,14 @@ export default {
         },
       });
     },
-    loadAll() {
-      console.log("loadAll");
-      return;
-    },
     handleSelect(item) {
-      console.log(item);
+      this.openSearchTag(item.value);
+    },
+    submit(){
+      this.openSearchTag(this.state);
+    },
+    openSearchTag(keyWord) {
+      window.open(`https://www.baidu.com/s?wd=${keyWord}`);
     },
   },
 };
